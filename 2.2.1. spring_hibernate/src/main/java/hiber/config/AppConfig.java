@@ -25,10 +25,10 @@ public class AppConfig {
    @Bean
    public DataSource getDataSource() {
       DriverManagerDataSource dataSource = new DriverManagerDataSource();
-      dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-      dataSource.setUrl("jdbc:mysql://localhost:3306/spring_hibernate_db");
-      dataSource.setUsername("root");
-      dataSource.setPassword("MYUsnVoElTMqv!");
+      dataSource.setDriverClassName(env.getRequiredProperty("db.driver"));
+      dataSource.setUrl(env.getRequiredProperty("db.url"));
+      dataSource.setUsername(env.getRequiredProperty("db.user"));
+      dataSource.setPassword(env.getRequiredProperty("db.password"));
       return dataSource;
    }
 
@@ -36,7 +36,6 @@ public class AppConfig {
    public LocalSessionFactoryBean getSessionFactory() {
       LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
       factoryBean.setDataSource(getDataSource());
-
       Properties props = new Properties();
       props.put("hibernate.dialect", env.getRequiredProperty("hibernate.dialect"));
       props.put("hibernate.show_sql", env.getRequiredProperty("hibernate.show_sql"));
